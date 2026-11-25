@@ -4,7 +4,7 @@
 %
 % COLOUR THEMES
 %
-%   Two built-in themes: DeepBlue (default) and Kraft.
+%   Three built-in themes: DeepBlue, Kraft, and ENAC (default).
 %   Select in your preamble before \begin{document}:
 %
 %     \usepackage{beamerthememidcenturymodern}
@@ -343,6 +343,13 @@
 }
 
 % ---------------------------------------------------------------------------
+% BEAMER LOGO
+% ---------------------------------------------------------------------------
+% Remove the logo from the default logo layer; it is handled at the frame title level.
+\setbeamertemplate{logo}{}
+
+
+% ---------------------------------------------------------------------------
 % COLOUR PALETTE
 % ---------------------------------------------------------------------------
 \definecolor{mcmDeepGreen}{HTML}{09342A}
@@ -508,6 +515,7 @@
 % Knobs
 %   \mcmFrameTitleLeft    0.35cm  left padding of the band
 %   \mcmFrameTitleRight   0.40cm  right padding
+%   \mcmFrameTitleLogoSep 0.25cm  gap between title text and the logo
 %   \mcmFrameTitleHeight  1.10cm  height of a one-line band; the white above
 %                                 and below the text is derived from it, so
 %                                 this one length sets the whole band
@@ -591,8 +599,19 @@
 \newlength{\mcmFrameSubtitleSink}
 \setlength{\mcmFrameSubtitleSink}{1pt}
 
-\newcommand{\mcmFrameTitleWidth}{%
+\newlength{\mcmFrameTitleLogoSep}
+\setlength{\mcmFrameTitleLogoSep}{0.25cm}
+
+\newsavebox{\mcm@ftLogo}
+\newlength{\mcm@ftLogoWidth}
+\newif\if@mcmHasFtLogo
+
+\newcommand{\mcmFrameTitleInnerWidth}{%
   \dimexpr\paperwidth-\mcmFrameTitleLeft-\mcmFrameTitleRight\relax}
+
+\newcommand{\mcmFrameTitleWidth}{%
+  \dimexpr\paperwidth-\mcmFrameTitleLeft-\mcmFrameTitleRight-\mcm@ftLogoWidth
+    -\if@mcmHasFtLogo\mcmFrameTitleLogoSep\else\z@\fi\relax}
 
 \newsavebox{\mcm@ftbox}      % the content as printed
 \newsavebox{\mcm@ftref}      % the same, strutted, for the height
@@ -660,6 +679,13 @@
 
 \setbeamertemplate{frametitle}{%
   \nointerlineskip
+  \sbox{\mcm@ftLogo}{\insertlogo}%
+  \setlength{\mcm@ftLogoWidth}{\wd\mcm@ftLogo}%
+  \ifdim\dimexpr\wd\mcm@ftLogo+\ht\mcm@ftLogo+\dp\mcm@ftLogo\relax>\z@
+    \@mcmHasFtLogotrue
+  \else
+    \@mcmHasFtLogofalse
+  \fi
   \@mcmftsubfalse
   \mcm@ftifny{\insertframesubtitle}{\@mcmftsubtrue}%
   % The band's height is a *line count*, never a measurement of the ink: one
@@ -707,6 +733,7 @@
     \advance\mcm@ftnom\dp\mcm@ftline
   \fi
   \sbox\mcm@ftbox{\mcm@ftbuild{\relax}}%
+  \wd\mcm@ftbox=\mcmFrameTitleWidth
   % Overflow guard: should the ink ever be taller than the band the line count
   % asked for (a huge font override), give it room rather than let it run out.
   % The margin is deliberately small — it must not undo the line above.
@@ -744,10 +771,19 @@
       wd=\paperwidth,
       ht=\mcm@fth, dp=0.0cm,
       leftskip=\mcmFrameTitleLeft, rightskip=\mcmFrameTitleRight]{frametitle}%
-    \vbox to \mcm@fth{%
-      \vskip\mcm@fttop
-      \noindent\usebox\mcm@ftbox\par
-      \vss
+    \hbox to\mcmFrameTitleInnerWidth{%
+      \vbox to\mcm@fth{%
+        \hsize=\mcmFrameTitleWidth
+        \vskip\mcm@fttop
+        \noindent\usebox\mcm@ftbox\par
+        \vss
+      }%
+      \if@mcmHasFtLogo
+        \hskip\mcmFrameTitleLogoSep
+        \vbox to\mcm@fth{\vfil\hbox{\usebox{\mcm@ftLogo}}\vfil}%
+      \else
+        \hfil
+      \fi
     }%
   \end{beamercolorbox}%
   % The accent line is drawn *in the flow*, in a box of zero height so it
@@ -1042,21 +1078,32 @@
 % ---------------------------------------------------------------------------
 % TABLE OF CONTENTS
 % ---------------------------------------------------------------------------
-\setbeamertemplate{section in toc}[sections numbered]
-\setbeamertemplate{section in toc}[subsections numbered]
 
 % \setbeamertemplate{section in toc}{%
-  % \hspace{0.1cm}%
-  % \raisebox{0.2ex}{\tikz{\fill[mcmPip](0,0) rectangle (0.14,0.14);}}%
-  % \hspace{0.25cm}%
-  % {\usebeamerfont{section in toc}\inserttocsection}\par%
+%   \hspace{0.1cm}%
+%   \raisebox{0.2ex}{\tikz{\fill[mcmPip](0,0) rectangle (0.14,0.14);}}%
+%   \hspace{0.25cm}%
+%   {\usebeamerfont{section in toc}\inserttocsection}\par%
 % }
 % \setbeamertemplate{subsection in toc}{%
-  % \hspace{0.65cm}%
-  % \raisebox{0.0ex}{\tikz{\fill[mcmPip] (0,0) circle(0.055);}}%
-  % \hspace{0.2cm}%
-  % {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
+%   \hspace{0.65cm}%
+%   \raisebox{0.0ex}{\tikz{\fill[mcmPip] (0,0) circle(0.055);}}%
+%   \hspace{0.2cm}%
+%   {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
 % }
+
+\setbeamertemplate{section in toc}{%
+  \hspace{0.1cm}%
+  \inserttocsectionnumber.%
+  \hspace{0.3em}%
+  {\usebeamerfont{section in toc}\inserttocsection}\par%
+}
+\setbeamertemplate{subsection in toc}{%
+  \hspace{0.65cm}%
+  \inserttocsubsectionnumber.%
+  \hspace{0.3em}%
+  {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
+}
 
 % ---------------------------------------------------------------------------
 % FOOTLINE — progress bar, suppressed on the title page
