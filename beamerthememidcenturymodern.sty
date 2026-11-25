@@ -23,7 +23,7 @@
 %     \renewfontfamily\mcmTitleFont{Font Name}
 %
 % =============================================================================
-\ProvidesPackage{beamerthememidcenturymodern}[2026/10/23 v2.1.1 Mid-Century Modern Beamer Template]
+\ProvidesPackage{beamerthememidcenturymodern}[2026/10/23 v2.1.1 Mid-Century Modern Beamer Template, ENAC Variant]
 
 \setbeamersize{text margin left=2em, text margin right=2em}
 
@@ -370,6 +370,9 @@
 \definecolor{mcmClay}{HTML}{D2683A}
 \definecolor{mcmMoss}{HTML}{7A9A6A}
 
+% Additional colors for the ENAC theme
+\definecolor{mcmENACBlue}{HTML}{1C3B72}
+
 % ---------------------------------------------------------------------------
 % SEMANTIC COLOUR ALIASES — set by \mcmTheme
 % ---------------------------------------------------------------------------
@@ -402,6 +405,19 @@
     \colorlet{mcmExample}{mcmSage}%
     \mcm@applytheme
   }{%
+    \ifstrequal{#1}{ENAC}{%
+      \colorlet{mcmPrimary}{mcmENACBlue}%
+      \colorlet{mcmPrimaryDark}{mcmENACBlue!80!black}%
+      \colorlet{mcmPrimaryFg}{mcmLightGray}%
+      \colorlet{mcmPrimaryAccent}{mcmLightBlue!50!mcmLightGray}%
+      \colorlet{mcmPrimaryMuted}{mcmENACBlue!10}%
+      \colorlet{mcmPip}{mcmENACBlue}%
+      \colorlet{mcmBlockTitleFg}{mcmENACBlue}%
+      \colorlet{mcmScanLine}{mcmENACBlue!55}%
+      \colorlet{mcmAlert}{mcmClay}%
+      \colorlet{mcmExample}{mcmMoss}%
+      \mcm@applytheme
+    }{%
     \colorlet{mcmPrimary}{mcmDeepBlue}%
     \colorlet{mcmPrimaryDark}{mcmDarkBlue}%
     \colorlet{mcmPrimaryFg}{mcmLightGray}%
@@ -413,7 +429,7 @@
     \colorlet{mcmAlert}{mcmClay}%
     \colorlet{mcmExample}{mcmMoss}%
     \mcm@applytheme
-  }%
+  }}%
 }
 
 % The four pastels used to be four hand-picked hex values, and measuring them
@@ -470,7 +486,7 @@
 \newcommand{\mcmBulletColor}{mcmPip}
 
 % Apply default theme
-\mcmTheme{DeepBlue}
+\mcmTheme{ENAC}
 
 % ---------------------------------------------------------------------------
 % FONT ASSIGNMENTS
@@ -1013,31 +1029,34 @@
 % one-step reduction.
 \setbeamertemplate{enumerate item}{%
   {\usebeamerfont*{itemize/enumerate body}\small
-   \color{\mcmBulletColor}\bfseries\insertenumlabel}%
+   \color{\mcmBulletColor}\bfseries\insertenumlabel.}%
 }
 \setbeamertemplate{enumerate subitem}{%
   {\usebeamerfont*{itemize/enumerate subbody}\footnotesize
-   \color{\mcmBulletColor}\insertsubenumlabel}%
+   \color{\mcmBulletColor}\insertsubenumlabel.}%
 }
 \setbeamertemplate{enumerate subsubitem}{%
   {\usebeamerfont*{itemize/enumerate subsubbody}\scriptsize
-   \color{\mcmBulletColor}\insertsubsubenumlabel}%
+   \color{\mcmBulletColor}\insertsubsubenumlabel.}%
 }
 % ---------------------------------------------------------------------------
 % TABLE OF CONTENTS
 % ---------------------------------------------------------------------------
-\setbeamertemplate{section in toc}{%
-  \hspace{0.1cm}%
-  \raisebox{0.2ex}{\tikz{\fill[mcmPip](0,0) rectangle (0.14,0.14);}}%
-  \hspace{0.25cm}%
-  {\usebeamerfont{section in toc}\inserttocsection}\par%
-}
-\setbeamertemplate{subsection in toc}{%
-  \hspace{0.65cm}%
-  \raisebox{0.0ex}{\tikz{\fill[mcmPip] (0,0) circle(0.055);}}%
-  \hspace{0.2cm}%
-  {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
-}
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{section in toc}[subsections numbered]
+
+% \setbeamertemplate{section in toc}{%
+  % \hspace{0.1cm}%
+  % \raisebox{0.2ex}{\tikz{\fill[mcmPip](0,0) rectangle (0.14,0.14);}}%
+  % \hspace{0.25cm}%
+  % {\usebeamerfont{section in toc}\inserttocsection}\par%
+% }
+% \setbeamertemplate{subsection in toc}{%
+  % \hspace{0.65cm}%
+  % \raisebox{0.0ex}{\tikz{\fill[mcmPip] (0,0) circle(0.055);}}%
+  % \hspace{0.2cm}%
+  % {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
+% }
 
 % ---------------------------------------------------------------------------
 % FOOTLINE — progress bar, suppressed on the title page
@@ -1061,15 +1080,26 @@
     \fill[mcmPrimary]
       (current page.south west)
       rectangle ([xshift=\mcmprog\paperwidth, yshift=0.06cm]current page.south west);
+    % Author
     \node[anchor=south west, inner sep=0pt]
       at ([xshift=0.4cm, yshift=0.10cm]current page.south west)
       {{\tiny\color{mcmBlack!45}\insertshortauthor}};
+
+    % Presentation title
     \node[anchor=south, inner sep=0pt]
-      at ([yshift=0.10cm]current page.south)
+      at ([xshift=-0.15\paperwidth, yshift=0.10cm]current page.south)
       {{\tiny\color{mcmBlack!45}\insertshorttitle}};
+
+    % Current section
+    \node[anchor=south, inner sep=0pt]
+      at ([xshift=0.20\paperwidth, yshift=0.10cm]current page.south)
+      {{\tiny\color{mcmBlack!45}\insertsection}};
+
+    % Page counter
     \node[anchor=south east, inner sep=0pt]
       at ([xshift=-0.4cm, yshift=0.10cm]current page.south east)
-      {{\tiny\color{mcmBlack!45}\textbf{\insertframenumber}\,/\,\inserttotalframenumber}};
+      {{\tiny\color{mcmBlack!45}\textbf{\insertframenumber\,/\,\inserttotalframenumber}}};
+
   \end{tikzpicture}%
   \leavevmode\hbox to \paperwidth{\vbox to 0.45cm{}\hss}%
 }
@@ -1081,6 +1111,10 @@
 % ---------------------------------------------------------------------------
 % SECTION PAGE
 % ---------------------------------------------------------------------------
+\newcommand{\currenttocsectionnumber}{%
+  \number\beamer@tocsectionnumber
+}
+
 \setbeamertemplate{section page}{%
   \begin{tikzpicture}[remember picture, overlay]
     \fill[mcmBg]
@@ -1094,7 +1128,7 @@
     \node[anchor=south west, inner sep=0pt,
           font=\small\bfseries, text=mcmPrimary!55]
       at ([xshift=1.1cm, yshift=0.18cm]current page.west)
-      {\MakeUppercase{Section}\ \insertsectionnumber};
+      {\MakeUppercase{Section}\ \currenttocsectionnumber}; % Rely on TOC numbering instead
     \node[anchor=west, text width=0.80\paperwidth,
           align=left, inner sep=0pt]
       at ([xshift=1.1cm, yshift=-0.55cm]current page.west)
@@ -1124,7 +1158,7 @@
       at ([xshift=1.1cm, yshift=0.4cm]current page.west)
       {%
         {\small\color{mcmPrimary!60}\MakeUppercase{Section}\ %
-         \insertsectionnumber.\insertsubsectionnumber}\\[0.3cm]
+         \currenttocsectionnumber.\insertsubsectionnumber}\\[0.3cm]
         % \mcmTitleFont for the same reason as on the section page above.
         {\mcmTitleFont\usebeamerfont{frametitle}\color{mcmPrimary}%
          \insertsubsection}%

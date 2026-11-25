@@ -9,8 +9,9 @@
 \addbibresource{demo.bib}
 
 % --- Theme selection (comment/uncomment to switch) ---
-\mcmTheme{Kraft}
+% \mcmTheme{Kraft}
 % \mcmTheme{DeepBlue}
+\mcmTheme{ENAC} % ENAC theme with custom colors
  % 
 % --- Metadata ---
 \title{Midcentury Modern}
@@ -24,8 +25,9 @@
 % Your own logo goes here — give it a height, not a width: the footer strip is
 % built around the logo's height. Delete this line and the scan lines run the
 % full width of the strip.
-\titlegraphic{\includegraphics[height=0.8cm]{logos/your-logo-kraft.pdf}}
+% \titlegraphic{\includegraphics[height=0.8cm]{logos/your-logo-kraft.pdf}}
 % \titlegraphic{\includegraphics[height=0.8cm]{logos/your-logo-deepblue.pdf}}
+\titlegraphic{\includegraphics[height=1.4cm]{logos/your-logo-enac.pdf}}
 
 % --- Automatic section/subsection pages ---
 \AtBeginSection[]{%
@@ -42,6 +44,8 @@
 \AtEveryCite{\color{mcmPrimary}}
 
 \begin{document}
+
+\section*{Introduction}
 
 % =====================================================================
 % TITLE PAGE
@@ -89,7 +93,9 @@
 \subsection{Color Themes}
 
 % --- Kraft version (active) ---
-\begin{frame}{Two Built-in Themes — Kraft}
+{
+\mcmTheme{Kraft}
+\begin{frame}{Three Built-in Themes — Kraft}
   Select a theme with a single command in your preamble:
   \begin{enumerate}
     \item \textbf{Kraft} — terracotta, kraft paper tones, warm accents\\
@@ -97,13 +103,17 @@
     \item {\color{mcmBlack!30}%
       \textbf{DeepBlue} — dark navy, crisp white, cool accents\\
       \texttt{\textbackslash mcmTheme\{DeepBlue\}}}
+    \item {\color{mcmBlack!30}%
+      \textbf{ENAC} — Similar to DeepBLue, with ENAC dark blue instead of dark navy\\
+      \texttt{\textbackslash mcmTheme\{ENAC\}}}
   \end{enumerate}
 \end{frame}
+}
 
 % --- Temporary switch to DeepBlue ---
 {
 \mcmTheme{DeepBlue}
-\begin{frame}{Two Built-in Themes — DeepBlue}
+\begin{frame}{Three Built-in Themes — DeepBlue}
   Select a theme with a single command in your preamble:
   \begin{enumerate}
     \item {\color{mcmBlack!30}%
@@ -111,11 +121,29 @@
       \texttt{\textbackslash mcmTheme\{Kraft\}}}
     \item \textbf{DeepBlue} — dark navy, crisp white, cool accents\\
       \texttt{\textbackslash mcmTheme\{DeepBlue\}}
+    \item {\color{mcmBlack!30}%
+      \textbf{ENAC} — Similar to DeepBLue, with ENAC dark blue instead of dark navy\\
+      \texttt{\textbackslash mcmTheme\{ENAC\}}}
   \end{enumerate}
 \end{frame}
 }
-% Global theme (Kraft) resumes here automatically.
 
+% Global theme (ENAC) resumes here automatically.
+{
+\begin{frame}{Three Built-in Themes — ENAC}
+  Select a theme with a single command in your preamble:
+  \begin{enumerate}
+    \item {\color{mcmBlack!30}%
+      \textbf{Kraft} — terracotta, kraft paper tones, warm accents\\
+      \texttt{\textbackslash mcmTheme\{Kraft\}}}
+    \item {\color{mcmBlack!30}%
+      \textbf{DeepBlue} — dark navy, crisp white, cool accents\\
+      \texttt{\textbackslash mcmTheme\{DeepBlue\}}}
+    \item \textbf{ENAC} — Similar to DeepBLue, with ENAC dark blue instead of dark navy\\
+      \texttt{\textbackslash mcmTheme\{ENAC\}}
+  \end{enumerate}
+\end{frame}
+}
 % =====================================================================
 \section{Blocks}
 % =====================================================================
@@ -397,6 +425,8 @@
 % =====================================================================
 % CLOSING SLIDE
 % =====================================================================
+
+\section*{Conclusion}
 
 {\setbeamercolor{normal text}{fg=mcmPrimaryFg,bg=mcmAlert!70}
 \begin{frame}[plain,noframenumbering]
