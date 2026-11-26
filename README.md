@@ -1,13 +1,16 @@
 <h1 align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="img/logo-dark.svg">
-  <img src="img/logo-light.svg" alt="midcentury modern" width="300">
+  <source media="(prefers-color-scheme: dark)" srcset="logos/logo-deepblue-dark.svg">
+  <img src="logos/your-logo-deepblue.svg" alt="midcentury modern" width="300" style="vertical-align: middle; margin: 10px;">
+</picture>
+<picture>
+  <img src="logos/your-logo-enac.svg" alt="midcentury modern" width="300" style="vertical-align: middle; margin: 10px;">
 </picture>
 </h1>
 
 
 <div align="center">
-<img src="/img/sample.png" alt="Sample" width="70%" >
+<img src="img/enac-sample.png" alt="Sample" width="70%" >
 </div>
 
 **Midcentury Modern** is a Beamer template with a retro feel by [Jules Leguy](https://github.com/jules-leguy/midcenturymodern). This repository contains a slightly adapted theme dedicated to ENAC. It requires LuaLaTeX.
@@ -98,3 +101,7 @@ The logo on the title page is your own: set it with `\titlegraphic`, giving it a
 ## Feedback
 
 Bug reports, suggestions, and pull requests are very welcome.
+
+## Credits
+
+The template was initially made by Jules Leguy, and is available on [Github](https://github.com/jules-leguy/midcenturymodern)
